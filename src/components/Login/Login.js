@@ -11,10 +11,27 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
-  useEffect(()=> {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+  useEffect(() => {
+    console.log('Effect Runninng...');
+
+    return () => {
+      console.log('Effect CleanUp');
+    };
+  }, [enteredPassword]);
+
+  // Check validity with delay, after finish typing
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log('Checking form validity!');
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500); 
+
+    return () => {
+      clearTimeout(identifier); 
+      console.log('CleanUp');
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
